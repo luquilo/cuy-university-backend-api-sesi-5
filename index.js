@@ -37,3 +37,5 @@ app.delete('/mahasiswa', (req,res) => {
 app.listen(port, () => {
     console.log(`example app listening on port ${port}`)
 })
+
+// ini ada di sesi6
