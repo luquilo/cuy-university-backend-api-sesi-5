@@ -9,16 +9,24 @@ const port = 3000;
 app.use(bodyParser.json())
 
 app.get('/', (req,res) => {
-    response(200, 'ini data', 'ini message', res)
+    response(200, 'api ready to go', 'succes', res)
 })
 
 app.get('/mahasiswa', (req,res) => {
-    response(200, 'mahasiswa get listt', res)
+    const sql = 'select * from mahasiswa'
+    db.query(sql, (err,fields) => {
+        if (err) throw err
+        response(200, fields, 'message ini yak', res)
+    })
 })
 
 app.get('/mahasiswa/:nim', (req,res) => {
-    const nim = req.params.nim;
-    response(200, `spesifik mahasiswa by id ${nim}`, res)
+    const nim = req.params.nim
+    const sql = 'select * from mahasiswa where nim = ' + nim
+    db.query(sql, (err,fields) => {
+        if(err) throw err
+        response(200, fields, 'ini pesan', res)
+    })
 })
 
 app.post('/mahasiswa', (req,res) => {
