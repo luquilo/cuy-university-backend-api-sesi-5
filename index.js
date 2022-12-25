@@ -49,4 +49,4 @@ app.listen(port, () => {
 // ini ada di sesi6
 
 //ini adalah percobaan update di branch sesi 6
-console.log('halo dari branch 6')
+console.log('halo dari branch 6!')
