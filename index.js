@@ -30,7 +30,21 @@ app.get('/mahasiswa/:nim', (req,res) => {
 })
 
 app.post('/mahasiswa', (req,res) => {
-    response(200, 'INI POST REQUEST', res)
+    const { nim, nama_lengkap, alamat} = req.body
+
+    console.log(req.body)
+    const sql = `insert into mahasiswa (nim, nama_lengkap, alamat) values ('${nim}', '${nama_lengkap}', '${alamat}')`
+    db.query(sql, (err, fields) => {
+        if(err) throw err
+        if(fields.affectedRows){
+             console.log('data telah masuk')
+        }else{
+            console.log('data gagal masuk!')
+        }
+        console.log(fields)
+    })
+    res.send('ok')
+    // response(200, 'INI POST REQUEST', 'ini message dari post', res)
 })
 
 app.put('/mahasiswa', (req,res) => {
@@ -49,4 +63,4 @@ app.listen(port, () => {
 // ini ada di sesi6
 
 //ini adalah percobaan update di branch sesi 6
-console.log('halo dari branch 6!')
+console.log('halo dari branch 6 tes ganti')
