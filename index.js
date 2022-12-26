@@ -67,7 +67,20 @@ app.put('/mahasiswa', (req,res) => {
 })
 
 app.delete('/mahasiswa', (req,res) => {
-    response(200, 'ini delete', res)
+    const { nim } = req.body
+    const sql = `delete from mahasiswa where nim = ${nim}`
+    db.query(sql, (err,fields) => {
+        if (err) response(500, 'invalid', 'error', res)
+        if(fields?.affectedRows){
+            const data = {
+                isDeleted: fields.affectedRows
+            }
+
+            response(200, data, 'data deleted!', res)
+        } else {
+            response(404, 'user not foud', 'error', res)
+        }
+    })
 })
 
 
