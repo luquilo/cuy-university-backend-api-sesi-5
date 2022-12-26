@@ -30,25 +30,40 @@ app.get('/mahasiswa/:nim', (req,res) => {
 })
 
 app.post('/mahasiswa', (req,res) => {
-    const { nim, nama_lengkap, alamat} = req.body
+    const { nim, nama_lengkap, alamat } = req.body
 
-    console.log(req.body)
     const sql = `insert into mahasiswa (nim, nama_lengkap, alamat) values ('${nim}', '${nama_lengkap}', '${alamat}')`
     db.query(sql, (err, fields) => {
-        if(err) throw err
-        if(fields.affectedRows){
-             console.log('data telah masuk')
-        }else{
-            console.log('data gagal masuk!')
+        if(err) response(500, 'invalid', 'error yak', res)
+        if(fields?.affectedRows){
+            const data = {
+                id: fields.insertId,
+                isSuccess : fields.affectedRows,
+                
+            }
+            response(200, data, 'insert data succesfully', res)
         }
-        console.log(fields)
     })
-    res.send('ok')
-    // response(200, 'INI POST REQUEST', 'ini message dari post', res)
 })
 
 app.put('/mahasiswa', (req,res) => {
-    response(200, 'ini put', res)
+    const { nim, nama_lengkap, alamat} = req.body
+    const sql = `update mahasiswa set nama_lengkap= '${nama_lengkap}', alamat = '${alamat}' where nim = ${nim}`
+
+    db.query(sql, (err, fields  ) => {
+        if(err) response(500, 'invalid', 'error', res)
+        if(fields?.affectedRows){
+            const data = {
+                message: fields.message,
+                isSuccess: fields.affectedRows
+            }
+            response(200,data, 'data updated successfully!', res)
+        } else {
+            response(404, 'user not found', 'error', res)
+        }
+    })
+
+
 })
 
 app.delete('/mahasiswa', (req,res) => {
